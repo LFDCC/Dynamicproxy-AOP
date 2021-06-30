@@ -56,7 +56,6 @@ namespace DynamicProxy_AOP.Controllers
             return val;
         }
 
-        [LogAction]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
