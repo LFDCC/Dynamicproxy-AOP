@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DynamicProxy_AOP.Models;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using System;
@@ -19,9 +21,38 @@ namespace DynamicProxy_AOP.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        ITestUser testUser;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ITestUser testUser)
         {
             _logger = logger;
+            this.testUser = testUser;
+        }
+
+        [HttpGet("run")]
+        public void Run(string arg)
+        {
+            testUser.Run(arg);
+        }
+
+        [HttpGet("run1")]
+        public string Run1(string arg)
+        {
+            var val = testUser.Run1(arg);
+            return val;
+        }
+
+        [HttpGet("run2")]
+        public async Task Run2(string arg)
+        {
+            await testUser.Run2(arg);
+        }
+
+        [HttpGet("run3")]
+        public async Task<string> Run3(string arg)
+        {
+            var val = await testUser.Run3(arg);
+            return val;
         }
 
         [HttpGet]
