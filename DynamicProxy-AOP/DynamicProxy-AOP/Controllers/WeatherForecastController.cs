@@ -1,4 +1,5 @@
-﻿using DynamicProxy_AOP.Models;
+﻿using DynamicProxy_AOP.Common;
+using DynamicProxy_AOP.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -55,6 +56,7 @@ namespace DynamicProxy_AOP.Controllers
             return val;
         }
 
+        [LogAction]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
