@@ -1,10 +1,16 @@
 ﻿using Castle.DynamicProxy;
 
 using DynamicProxy_AOP.Common.CastleDynamicProxy;
+using DynamicProxy_AOP.Common.CustomControllerProxy;
 
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace DynamicProxy_AOP.Extensions
 {
@@ -21,8 +27,8 @@ namespace DynamicProxy_AOP.Extensions
             {
                 var target = serviceProvider.GetRequiredService<TImplementation>();
                 var proxyGenerator = serviceProvider.GetRequiredService<ProxyGenerator>();
-                var abpInterceptors = serviceProvider.GetRequiredService<IEnumerable<ICustomInterceptor>>();
-                var interceptors = GetInterceptors(abpInterceptors);
+                var customInterceptors = serviceProvider.GetRequiredService<IEnumerable<ICustomInterceptor>>();
+                var interceptors = GetInterceptors(customInterceptors);
                 var proxy = proxyGenerator.CreateInterfaceProxyWithTarget<TService>(target, interceptors.ToInterceptors());
                 return proxy;
             }, serviceLifetime));
@@ -30,11 +36,11 @@ namespace DynamicProxy_AOP.Extensions
             return services;
         }
 
-        private static IEnumerable<IAsyncInterceptor> GetInterceptors(IEnumerable<ICustomInterceptor> abpInterceptors)
+        private static IEnumerable<IAsyncInterceptor> GetInterceptors(IEnumerable<ICustomInterceptor> customInterceptors)
         {
-            foreach (var abpInterceptor in abpInterceptors)
+            foreach (var customInterceptor in customInterceptors)
             {
-                var interceptor = new CustomInterceptorAdapter<ICustomInterceptor>(abpInterceptor); //(IInterceptor)serviceProvider.GetRequiredService(typeof(AbpAsyncDeterminationInterceptor<>).MakeGenericType(typeof(IAbpInterceptor)));
+                var interceptor = new CustomInterceptorAdapter<ICustomInterceptor>(customInterceptor);
 
                 yield return interceptor;
             }
