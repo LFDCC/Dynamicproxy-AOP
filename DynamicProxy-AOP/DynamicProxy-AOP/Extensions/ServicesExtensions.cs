@@ -1,16 +1,10 @@
 ﻿using Castle.DynamicProxy;
 
 using DynamicProxy_AOP.Common.CastleDynamicProxy;
-using DynamicProxy_AOP.Common.CustomControllerProxy;
 
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace DynamicProxy_AOP.Extensions
 {

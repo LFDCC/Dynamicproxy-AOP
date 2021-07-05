@@ -1,5 +1,7 @@
 ﻿using DynamicProxy_AOP.Common;
 
+using Microsoft.Extensions.Logging;
+
 using System;
 using System.Threading.Tasks;
 
@@ -7,6 +9,7 @@ namespace DynamicProxy_AOP.Models
 {
     public class TestUser : ITestUser
     {
+
         [LogAction]
         public void Run(string arg)
         {

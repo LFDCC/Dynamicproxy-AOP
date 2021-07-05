@@ -12,16 +12,16 @@ namespace DynamicProxy_AOP.Common.CastleDynamicProxy
     public class CustomInterceptorAdapter<TInterceptor> : AsyncInterceptorBase
         where TInterceptor : ICustomInterceptor
     {
-        private readonly TInterceptor _abpInterceptor;
+        private readonly TInterceptor _customInterceptor;
 
-        public CustomInterceptorAdapter(TInterceptor abpInterceptor)
+        public CustomInterceptorAdapter(TInterceptor customInterceptor)
         {
-            _abpInterceptor = abpInterceptor;
+            _customInterceptor = customInterceptor;
         }
 
         protected override async Task InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func<IInvocation, IInvocationProceedInfo, Task> proceed)
         {
-            await _abpInterceptor.InterceptAsync(
+            await _customInterceptor.InterceptAsync(
                 new CustomMethodInvocationAdapterWithVoid(invocation, proceedInfo, proceed)
             );
         }
@@ -30,7 +30,7 @@ namespace DynamicProxy_AOP.Common.CastleDynamicProxy
         {
             var adapter = new CustomMethodInvocationAdapterWithReturnValue<TResult>(invocation, proceedInfo, proceed);
 
-            await _abpInterceptor.InterceptAsync(
+            await _customInterceptor.InterceptAsync(
                 adapter
             );
 

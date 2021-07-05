@@ -29,7 +29,8 @@ namespace DynamicProxy_AOP.Controllers
             _logger = logger;
             this.testUser = testUser;
         }
-
+        //[LogAction]
+        //virtual
         [HttpGet("run")]
         public void Run(string arg)
         {
